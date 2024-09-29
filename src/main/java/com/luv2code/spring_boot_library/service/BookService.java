@@ -24,7 +24,6 @@ public class BookService {
 
     private BookRepository bookRepository;
     private CheckoutRepository checkoutRepository;
-
     private HistoryRepository historyRepository;
 
     public BookService(BookRepository bookRepository, CheckoutRepository checkoutRepository,HistoryRepository historyRepository){
