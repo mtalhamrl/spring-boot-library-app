@@ -17,6 +17,27 @@ public class AdminController {
         this.adminService=adminService;
     }
 
+    @PutMapping("/secure/increase/book/quantity")
+    public void increaseBookQuantity(@RequestHeader(value = "Authorization") String token,
+                                     @RequestParam Long bookId) throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
+        if(admin==null || !admin.equals("admin")){
+            throw new Exception("admin page only");
+        }
+        adminService.increaseBookQuantity(bookId);
+    }
+
+    @PutMapping("/secure/decrease/book/quantity")
+    public void decreaseBookQuantity(@RequestHeader(value = "Authorization") String token,
+                                     @RequestParam Long bookId) throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
+        if(admin==null || !admin.equals("admin")){
+            throw new Exception("admin page only");
+        }
+        adminService.decreaseBookQuantity(bookId);
+    }
+
+
     @PostMapping("/secure/add/book")
     public void postBook(@RequestHeader(value = "Authorization") String token,
                          @RequestBody AddBookRequest addBookRequest) throws  Exception{
@@ -26,5 +47,14 @@ public class AdminController {
             throw new Exception("admin page only");
         }
         adminService.postBook(addBookRequest);
+    }
+    @DeleteMapping("/secure/delete/book")
+    public void deleteBook(@RequestHeader(value="Authorization") String token,
+                           @RequestParam Long bookId) throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
+        if (admin == null || !admin.equals("admin")) {
+            throw new Exception("admin page only");
+        }
+        adminService.deleteBook(bookId);
     }
 }
